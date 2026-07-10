@@ -8,3 +8,14 @@ services:
     volumes:
       - "./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf"
       - "./mosquitto/data:/mosquitto/data"
+  simulator:
+    container_name: simulator
+    build:
+      dockerfile: simulator/Dockerfile
+      context: ./simulator
+    profiles: ["simulation"]
+    env_file:
+      - ./simulator/.env
+    depends_on:
+      broker:
+        condition: service_started
