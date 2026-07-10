@@ -1,4 +1,4 @@
-# data simulator
+# Data simulator
 
 ### Use it for:
 - testing
