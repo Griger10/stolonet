@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from zmqtt import MQTTClient, QoS
 
 from config import load_config
-from contract import TelemetryEnvelope, Reading
+from contract import TelemetryEnvelope, Reading, MetricType
 
 NODES = ["node_1", "node_2", "node_3"]
 SLEEP_INTERVAL = 5
@@ -21,12 +21,12 @@ async def main() -> None:
                     timestamp=datetime.now(timezone.utc),
                     readings=[
                         Reading(
-                            metric="temperature",
+                            metric=MetricType.SOIL_MOISTURE,
                             value=random.uniform(20, 30),
                             unit="C"
                         ),
                         Reading(
-                            metric="humidity",
+                            metric=MetricType.AIR_TEMPERATURE,
                             value=random.uniform(0, 100),
                             unit="%"
                         )

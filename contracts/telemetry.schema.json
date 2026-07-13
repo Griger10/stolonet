@@ -1,10 +1,17 @@
 {
   "$defs": {
+    "MetricType": {
+      "enum": [
+        "soil_moisture",
+        "air_temp"
+      ],
+      "title": "MetricType",
+      "type": "string"
+    },
     "Reading": {
       "properties": {
         "metric": {
-          "title": "Metric",
-          "type": "string"
+          "$ref": "#/$defs/MetricType"
         },
         "value": {
           "title": "Value",
