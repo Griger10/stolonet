@@ -1,9 +1,8 @@
 import asyncio
-
 import random
+from datetime import datetime, timezone
 
 from zmqtt import MQTTClient, QoS
-from datetime import datetime, timezone
 
 from config import load_config
 from contract import TelemetryEnvelope, Reading
