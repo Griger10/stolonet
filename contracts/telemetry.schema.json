@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "Reading": {
+      "properties": {
+        "metric": {
+          "title": "Metric",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric",
+        "value",
+        "unit"
+      ],
+      "title": "Reading",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "node_id": {
+      "title": "Node Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "readings": {
+      "items": {
+        "$ref": "#/$defs/Reading"
+      },
+      "title": "Readings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "node_id",
+    "timestamp",
+    "readings"
+  ],
+  "title": "TelemetryEnvelope",
+  "type": "object"
+}
