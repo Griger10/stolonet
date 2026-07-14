@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any
 import stolonet.ingest.subscriber as subscribers_pkg
 
 if TYPE_CHECKING:
-    from faststream.mqtt import MQTTBroker
+    from faststream.mqtt.fastapi import MQTTRouter
 
 type Handler = Callable[..., Awaitable[Any]]
 
@@ -23,7 +23,7 @@ def register_subscriber(topic: str) -> Callable[[Handler], Handler]:
     return decorator
 
 
-def register_all(broker: MQTTBroker) -> None:
+def register_all(broker: MQTTRouter) -> None:
     for topic, func in SUBSCRIBERS_REGISTRY.items():
         broker.subscriber(topic=topic)(func)
 
