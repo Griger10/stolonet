@@ -4,3 +4,7 @@
     cd backend && uv run ruff check --fix
     cd backend && uv run isort .
     cd backend && uv run mypy --no-incremental
+
+[group("migrations")]
+@backend_migrate:
+    cd backend && uv run alembic upgrade head
