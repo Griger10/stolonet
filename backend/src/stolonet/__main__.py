@@ -1,11 +1,14 @@
 import asyncio
-
+import logging
 import uvicorn
 from fastapi import FastAPI
 from faststream.mqtt.fastapi import MQTTRouter
 
 from stolonet.bootstrap.config import Config
+from stolonet.bootstrap.log import configure_logging
 from stolonet.ingest.registry import load_ingest_handlers, register_all
+
+logger = logging.getLogger(__name__)
 
 config = Config()
 broker = MQTTRouter(
@@ -34,4 +37,5 @@ async def run_api() -> None:
 
 
 if __name__ == "__main__":
+    configure_logging()
     asyncio.run(run_api())
