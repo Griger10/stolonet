@@ -1,5 +1,6 @@
 import asyncio
 import logging
+
 import uvicorn
 from fastapi import FastAPI
 from faststream.mqtt.fastapi import MQTTRouter
