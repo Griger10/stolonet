@@ -14,16 +14,16 @@ class ReadingRepositoryImpl:
     def __init__(self, session: AsyncSession):
         self._session = session
 
-    async def save_telemetry_data(self, envelope: TelemetryEnvelope) -> None:
+    async def save_telemetry_data(self, data: TelemetryEnvelope) -> None:
         rows = [
             ReadingORM(
-                time=envelope.timestamp,
-                node_id=envelope.node_id,
+                time=data.timestamp,
+                node_id=data.node_id,
                 metric=r.metric,
                 value=r.value,
                 unit=r.unit,
             )
-            for r in envelope.readings
+            for r in data.readings
         ]
         self._session.add_all(rows)
         await self._session.flush()
