@@ -2,7 +2,7 @@ from stolonet.domain.interfaces.repositories import ReadingRepository
 from stolonet.domain.models import TelemetryEnvelope
 
 
-class SaveTelemetryData:
+class SaveTelemetryDataImpl:
     def __init__(self, reading_repo: ReadingRepository) -> None:
         self._reading_repo = reading_repo
 

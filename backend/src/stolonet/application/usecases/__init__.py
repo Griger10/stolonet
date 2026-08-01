@@ -1,6 +1,6 @@
-from stolonet.application.usecases.save_telemetry_data import SaveTelemetryData
-
+from stolonet.application.usecases.save_telemetry_data import \
+    SaveTelemetryDataImpl
 
 __all__ = [
-    "SaveTelemetryData",
+    "SaveTelemetryDataImpl",
 ]
