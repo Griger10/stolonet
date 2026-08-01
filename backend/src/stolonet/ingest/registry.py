@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 import pkgutil
 from collections.abc import Awaitable, Callable
+from dishka.integrations.faststream import inject
 from typing import TYPE_CHECKING, Any
 
 import stolonet.ingest.subscriber as subscribers_pkg
@@ -25,7 +26,7 @@ def register_subscriber(topic: str) -> Callable[[Handler], Handler]:
 
 def register_all(broker: MQTTRouter) -> None:
     for topic, func in SUBSCRIBERS_REGISTRY.items():
-        broker.subscriber(topic=topic)(func)
+        broker.subscriber(topic=topic)(inject(func))
 
 
 def load_ingest_handlers() -> None:
