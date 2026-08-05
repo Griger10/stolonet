@@ -34,7 +34,7 @@ def load_ingest_handlers() -> None:
     prefix = stolonet.ingest.__name__ + "."
 
     for module_info in pkgutil.walk_packages(
-            stolonet.ingest.__path__,
-            prefix,
+        stolonet.ingest.__path__,
+        prefix,
     ):
         importlib.import_module(module_info.name)
