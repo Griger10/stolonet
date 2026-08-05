@@ -8,6 +8,5 @@ class ReadTelemetryDataImpl:
 
     async def __call__(self, node_id: str, hours: int = 24) -> list[TimestampedReading]:
         return await self._reading_repo.get_telemetry_data_by_hours_window(
-            node_id=node_id,
-            hours=hours
+            node_id=node_id, hours=hours
         )

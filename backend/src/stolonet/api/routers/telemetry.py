@@ -1,8 +1,9 @@
+from typing import Annotated
+
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter
 from fastapi.params import Query
-from typing import Annotated
 
 from stolonet.api.dto.telemetry import TimestampedReadingResponse
 from stolonet.domain.interfaces.usecases import ReadTelemetryData
@@ -11,7 +12,9 @@ telemetry_router = APIRouter(route_class=DishkaRoute, prefix="/telemetry")
 
 
 @telemetry_router.get("/{node_id}")
-async def read_telemetry_endpoint(node_id: str, usecase: FromDishka[ReadTelemetryData], hours: Annotated[int, Query(gt=0)] = 24):
+async def read_telemetry_endpoint(
+    node_id: str, usecase: FromDishka[ReadTelemetryData], hours: Annotated[int, Query(gt=0)] = 24
+) -> list[TimestampedReadingResponse]:
     domain_objects = await usecase(node_id, hours)
     return [
         TimestampedReadingResponse(
