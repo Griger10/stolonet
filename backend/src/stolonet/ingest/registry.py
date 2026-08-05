@@ -3,10 +3,9 @@ from __future__ import annotations
 import importlib
 import pkgutil
 from collections.abc import Awaitable, Callable
-from dishka.integrations.faststream import inject
 from typing import TYPE_CHECKING, Any
 
-import stolonet.ingest.subscriber as subscribers_pkg
+from dishka_faststream import inject
 
 if TYPE_CHECKING:
     from faststream.mqtt.fastapi import MQTTRouter
@@ -30,10 +29,12 @@ def register_all(broker: MQTTRouter) -> None:
 
 
 def load_ingest_handlers() -> None:
-    prefix = subscribers_pkg.__name__ + "."
+    import stolonet.ingest
+
+    prefix = stolonet.ingest.__name__ + "."
 
     for module_info in pkgutil.walk_packages(
-        subscribers_pkg.__path__,
-        prefix,
+            stolonet.ingest.__path__,
+            prefix,
     ):
         importlib.import_module(module_info.name)
