@@ -8,7 +8,7 @@ WORKDIR /app/backend
 
 COPY backend/pyproject.toml .
 COPY backend/uv.lock .
-RUN uv sync --no-group dev --frozen
+RUN uv sync --no-group dev --frozen --no-install-project
 
 FROM python:3.13-slim
 ENV PYTHONPATH="${PYTHONPATH}:/app/backend/src/"
