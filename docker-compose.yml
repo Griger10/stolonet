@@ -1,18 +1,26 @@
 services:
-  broker:
-    container_name: broker
-    image: eclipse-mosquitto:2.1-alpine
-    restart: unless-stopped
+  backend:
+    container_name: backend
+    command: python -m backend.src.stolonet
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    env_file:
+      - ./backend/.env
+      - .env
     ports:
-      - "1883:1883"
-    volumes:
-      - "./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf"
-      - "./mosquitto/data:/mosquitto/data"
+      - "8000:8000"
+    depends_on:
+      broker:
+        condition: service_started
+      postgres:
+        condition: service_healthy
   simulator:
     container_name: simulator
+    command: python -m simulator
     build:
       dockerfile: simulator/Dockerfile
-      context: ./simulator
+      context: .
     profiles: ["simulation"]
     env_file:
       - ./simulator/.env
@@ -29,3 +37,17 @@ services:
       - "5432:5432"
     volumes:
       - "./postgres/data:/var/lib/postgresql"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  broker:
+    container_name: broker
+    image: eclipse-mosquitto:2.1-alpine
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - "./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf"
+      - "./mosquitto/data:/mosquitto/data"
