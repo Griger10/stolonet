@@ -8,16 +8,16 @@ resolution-markers = [
 
 [[package]]
 name = "alembic"
-version = "1.18.5"
+version = "1.19.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "mako" },
     { name = "sqlalchemy" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1a/cc/ac0bed8e562e7407fe55c3ba85a4dce86e6dbd8730887bd1e406a6c5c18a/alembic-1.18.5.tar.gz", hash = "sha256:1554982221dd17e9a749b53902407578eb305e453f71999e8c7f0a48389fff8e", size = 2060480, upload-time = "2026-06-25T15:20:54.888Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fb/01/a48dab7827ac4421272399f7ed9a2ec17edd12c8bcde4417bd7b6821b71a/alembic-1.19.0.tar.gz", hash = "sha256:6487c612fc719dcfa22b17d2dd5b2b458929641e6aa2f0b65b135727f5e6d501", size = 2069906, upload-time = "2026-08-04T18:57:04.599Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/96/78/5fe6dc3a3a5b2f5a2a4faef8bfe336d5fa049a38884ab3172e0098160c01/alembic-1.18.5-py3-none-any.whl", hash = "sha256:06d8ba9d04558022f5395e9317de03d270f3dced49cee01f89fe7a13c26f14bc", size = 264664, upload-time = "2026-06-25T15:20:56.673Z" },
+    { url = "https://files.pythonhosted.org/packages/34/79/59ab6f1fe72eee229de91aa393225389a85df12a0fbbbfa264efcf6d7872/alembic-1.19.0-py3-none-any.whl", hash = "sha256:cf839d3849116aab3cc047e09c6968b9bd6b2fde61b6bb7c1e97352fe5503580", size = 265738, upload-time = "2026-08-04T18:57:06.219Z" },
 ]
 
 [[package]]
@@ -119,6 +119,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/97/da/b75b5fe665d16725e1d46e291c8dd4b0ed1731c7964f41087fda92f03d40/dishka-1.10.1.tar.gz", hash = "sha256:51fb624b9acc948b90f57128460061d1f3a1780121fe1c7d14c565e8bbff2083", size = 282008, upload-time = "2026-04-25T12:07:57.587Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2c/08/dd3259a319ba45c48d975caf237c830c7873a203288cb4ab186cc5bef585/dishka-1.10.1-py3-none-any.whl", hash = "sha256:84f40c1115eb391ce3fb558fd7946c5bcaf6361c35b77b7a185b7697a5720ec7", size = 120062, upload-time = "2026-04-25T12:07:59.153Z" },
+]
+
+[[package]]
+name = "dishka-faststream"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dishka" },
+    { name = "faststream" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1c/32/c8df3791072a5ea11abaa8e142536fe8cd7745f3fe25e4be4fdf3ac112f5/dishka_faststream-0.7.0.tar.gz", hash = "sha256:b8c6e95bf30f32fc67b3289697cee51c3047778afe195aa9a1062d21e64bfb7b", size = 118092, upload-time = "2026-06-04T17:34:30.856Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0e/9f/b1918e3ee6814f1b94489ff367b9178e2730a3d23370c24f2f2bce5886e5/dishka_faststream-0.7.0-py3-none-any.whl", hash = "sha256:6f68ce1520b9f15478c8e8407e0d36cdcf1261d237a81e0090fb34ab4775e67e", size = 10551, upload-time = "2026-06-04T17:34:29.953Z" },
 ]
 
 [[package]]
@@ -727,6 +740,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "alembic" },
     { name = "dishka" },
+    { name = "dishka-faststream" },
     { name = "fastapi" },
     { name = "faststream" },
     { name = "psycopg", extra = ["binary"] },
@@ -734,6 +748,7 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "sqlalchemy" },
     { name = "uvicorn" },
+    { name = "zmqtt" },
 ]
 
 [package.dev-dependencies]
@@ -749,15 +764,17 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "alembic", specifier = ">=1.18.5" },
+    { name = "alembic", specifier = ">=1.19.0" },
     { name = "dishka", specifier = ">=1.10.1" },
+    { name = "dishka-faststream", specifier = ">=0.7.0" },
     { name = "fastapi", specifier = ">=0.141.1" },
     { name = "faststream", specifier = ">=0.7.3" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.3.4" },
     { name = "pydantic", specifier = ">=2.13.4" },
     { name = "pydantic-settings", specifier = ">=2.14.2" },
     { name = "sqlalchemy", specifier = ">=2.0.51" },
-    { name = "uvicorn", specifier = ">=0.52.0" },
+    { name = "uvicorn", specifier = ">=0.52.1" },
+    { name = "zmqtt", specifier = ">=0.0.6" },
 ]
 
 [package.metadata.requires-dev]
@@ -803,13 +820,22 @@ wheels = [
 
 [[package]]
 name = "uvicorn"
-version = "0.52.0"
+version = "0.52.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "h11" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/05/c8/2d307868453a4bca6e64fa3581d122ae0748a0869c53f159339def179c7c/uvicorn-0.52.0.tar.gz", hash = "sha256:ca8876ad6c1983f394157c168b39d52f6dd56dabf5602fa0982751cffc2293ae", size = 97504, upload-time = "2026-07-29T08:45:34.065Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/03/18/ccce41535dee1be77735592bd19965f3972c82e07ee703d324709496b716/uvicorn-0.52.1.tar.gz", hash = "sha256:112ec661814189acbccd3f7b86460147cc065fc92c0821afa78918780e4354dd", size = 100571, upload-time = "2026-08-01T18:19:30.732Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/39/e6/b5c0630ace9757232aec07112be8146b812787db52141ff9d50674aa7634/uvicorn-0.52.0-py3-none-any.whl", hash = "sha256:3d887809810b89ed33501bcf0a9aba469b06ecd608158efce04bd6b48d8c9b08", size = 79058, upload-time = "2026-07-29T08:45:32.492Z" },
+    { url = "https://files.pythonhosted.org/packages/c7/d5/68e6e9bca63c0badf67002890a46d3784c958de45b65e1275ec583ca1f06/uvicorn-0.52.1-py3-none-any.whl", hash = "sha256:e4403f9d93188cf9d1088e9f40e3acd12630e2df8675316704379a7fc20fff6a", size = 79859, upload-time = "2026-08-01T18:19:29.294Z" },
+]
+
+[[package]]
+name = "zmqtt"
+version = "0.0.6"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/3a/c81bcfa737fd7d5c3361a7817099c7b1a0d2959d7e1a11e7736198595e7d/zmqtt-0.0.6.tar.gz", hash = "sha256:56053bd503ca9ba4428e0d43975227254e89de2b4fcd7338de89a4cd6cf9ee44", size = 30912, upload-time = "2026-07-26T23:04:06.782Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f8/f4/6f25f746c2dfb9932ba40642fe03e30d718247e418aed3062f9c9a692f6b/zmqtt-0.0.6-py3-none-any.whl", hash = "sha256:cd1a348c9e1f19e6c6c934b85d904152b3e2d8f61eaef9ce0ab4ae10af9e3bff", size = 40748, upload-time = "2026-07-26T23:04:05.898Z" },
 ]
