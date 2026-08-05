@@ -8,7 +8,7 @@ from fastapi.params import Query
 from stolonet.api.dto.telemetry import TimestampedReadingResponse
 from stolonet.domain.interfaces.usecases import ReadTelemetryData
 
-telemetry_router = APIRouter(route_class=DishkaRoute, prefix="/telemetry")
+telemetry_router = APIRouter(route_class=DishkaRoute, prefix="/telemetry", tags=["telemetry"])
 
 
 @telemetry_router.get("/{node_id}")
