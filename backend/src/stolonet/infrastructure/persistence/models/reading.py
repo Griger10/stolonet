@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import BigInteger, DateTime
+from sqlalchemy import BigInteger, DateTime, Index
 from sqlalchemy.orm import Mapped, mapped_column
 
 from stolonet.infrastructure.persistence.db import Base
@@ -8,6 +8,9 @@ from stolonet.infrastructure.persistence.db import Base
 
 class ReadingORM(Base):
     __tablename__ = "readings"
+    __table_args__ = (
+        Index("ix_reading_time_node_id", "node_id", "time"),
+    )
 
     reading_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     node_id: Mapped[str] = mapped_column()
