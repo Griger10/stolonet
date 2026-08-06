@@ -1,6 +1,7 @@
 from dishka import Provider, Scope, provide
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from stolonet.application.transaction_manager import TransactionManager
 from stolonet.application.usecases import SaveTelemetryDataImpl
 from stolonet.application.usecases.read_telemetry_data import \
     ReadTelemetryDataImpl
@@ -19,8 +20,9 @@ class TelemetryProvider(Provider):
         return ReadingRepositoryImpl(session)
 
     @provide
-    async def get_save_data_use_case(self, repo: ReadingRepository) -> SaveTelemetryData:
-        return SaveTelemetryDataImpl(repo)
+    async def get_save_data_use_case(self, repo: ReadingRepository,
+                                     tx_manager: TransactionManager) -> SaveTelemetryData:
+        return SaveTelemetryDataImpl(repo, tx_manager)
 
     @provide
     async def get_read_data_use_case(self, repo: ReadingRepository) -> ReadTelemetryData:

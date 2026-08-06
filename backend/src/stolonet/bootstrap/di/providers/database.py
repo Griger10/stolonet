@@ -5,7 +5,10 @@ from dishka import Provider, Scope, provide
 from sqlalchemy.ext.asyncio import (AsyncEngine, AsyncSession,
                                     async_sessionmaker, create_async_engine)
 
+from stolonet.application.transaction_manager import TransactionManager
 from stolonet.bootstrap.config import Config
+from stolonet.infrastructure.persistence.transaction_manager import \
+    ORMTransactionManager
 
 
 class DatabaseProvider(Provider):
@@ -27,3 +30,7 @@ class DatabaseProvider(Provider):
     ) -> AsyncGenerator[AsyncSession, Any]:
         async with pool() as session:
             yield session
+
+    @provide(scope=Scope.REQUEST)
+    async def get_transaction_manager(self, session: AsyncSession) -> TransactionManager:
+        return ORMTransactionManager(session)
