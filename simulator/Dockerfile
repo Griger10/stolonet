@@ -11,7 +11,7 @@ COPY simulator/uv.lock .
 RUN uv sync --frozen
 
 FROM python:3.13-slim
-ENV PYTHONPATH=/app
+ENV PYTHONPATH="${PYTHONPATH}:/app/simulator/"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/app/simulator/.venv
