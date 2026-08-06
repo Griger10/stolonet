@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class MetricType(StrEnum):
     SOIL_MOISTURE = "soil_moisture"
-    AIR_TEMPERATURE = "air_temp"
+    AIR_TEMPERATURE = "air_temperature"
 
 
 class Reading(BaseModel):
