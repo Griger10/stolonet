@@ -20,8 +20,9 @@ class TelemetryProvider(Provider):
         return ReadingRepositoryImpl(session)
 
     @provide
-    async def get_save_data_use_case(self, repo: ReadingRepository,
-                                     tx_manager: TransactionManager) -> SaveTelemetryData:
+    async def get_save_data_use_case(
+        self, repo: ReadingRepository, tx_manager: TransactionManager
+    ) -> SaveTelemetryData:
         return SaveTelemetryDataImpl(repo, tx_manager)
 
     @provide
