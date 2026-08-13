@@ -2,13 +2,16 @@ from collections.abc import AsyncGenerator
 from typing import Any
 
 from dishka import Provider, Scope, provide
-from sqlalchemy.ext.asyncio import (AsyncEngine, AsyncSession,
-                                    async_sessionmaker, create_async_engine)
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from stolonet.application.transaction_manager import TransactionManager
 from stolonet.bootstrap.config import Config
-from stolonet.infrastructure.persistence.transaction_manager import \
-    ORMTransactionManager
+from stolonet.infrastructure.persistence.transaction_manager import ORMTransactionManager
 
 
 class DatabaseProvider(Provider):

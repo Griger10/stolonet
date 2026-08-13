@@ -3,13 +3,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from stolonet.application.transaction_manager import TransactionManager
 from stolonet.application.usecases import SaveTelemetryDataImpl
-from stolonet.application.usecases.read_telemetry_data import \
-    ReadTelemetryDataImpl
+from stolonet.application.usecases.read_telemetry_data import ReadTelemetryDataImpl
 from stolonet.domain.interfaces.repositories import ReadingRepository
-from stolonet.domain.interfaces.usecases import (ReadTelemetryData,
-                                                 SaveTelemetryData)
-from stolonet.infrastructure.persistence.repositories.reading_repository import \
-    ReadingRepositoryImpl
+from stolonet.domain.interfaces.usecases import ReadTelemetryData, SaveTelemetryData
+from stolonet.infrastructure.persistence.repositories.reading_repository import (
+    ReadingRepositoryImpl,
+)
 
 
 class TelemetryProvider(Provider):

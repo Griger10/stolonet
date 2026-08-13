@@ -1,8 +1,7 @@
 import pytest
 
 from stolonet.domain.enums import MetricType
-from stolonet.domain.models import (Reading, TelemetryEnvelope,
-                                    TimestampedReading)
+from stolonet.domain.models import Reading, TelemetryEnvelope, TimestampedReading
 
 
 @pytest.mark.asyncio
