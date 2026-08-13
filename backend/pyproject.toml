@@ -26,6 +26,7 @@ dev = [
     "pytest-faker>=2.0.0",
     "mypy>=2.3.0",
     "isort>=8.0.1",
+    "pre-commit>=4.6.2",
 ]
 
 [build-system]
