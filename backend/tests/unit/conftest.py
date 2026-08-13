@@ -2,6 +2,7 @@ from typing import cast
 
 import pytest
 
+from stolonet.application.transaction_manager import TransactionManager
 from stolonet.application.usecases import SaveTelemetryDataImpl
 from stolonet.application.usecases.read_telemetry_data import \
     ReadTelemetryDataImpl
@@ -16,10 +17,15 @@ def reading_repository(mocker) -> ReadingRepository:
 
 
 @pytest.fixture
+def tx_manager(mocker) -> TransactionManager:
+    return cast(TransactionManager, mocker.AsyncMock(spec=TransactionManager))
+
+
+@pytest.fixture
 def read_telemetry_data(reading_repository) -> ReadTelemetryData:
     return ReadTelemetryDataImpl(reading_repository)
 
 
 @pytest.fixture
-def save_telemetry_data(reading_repository) -> SaveTelemetryData:
-    return SaveTelemetryDataImpl(reading_repository)
+def save_telemetry_data(reading_repository, tx_manager) -> SaveTelemetryData:
+    return SaveTelemetryDataImpl(reading_repository, tx_manager)
