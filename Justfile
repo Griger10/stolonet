@@ -12,3 +12,7 @@
 [group("migrations")]
 @backend_migrate:
     cd backend && VIRTUAL_ENV= uv run alembic upgrade head
+
+[group("pre-commit")]
+@pre-commit:
+    cd backend && uv run pre-commit run --all-files
