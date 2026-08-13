@@ -222,3 +222,6 @@ packages/react-devtools-timeline/dist
 frontend/node_modules
 mosquitto/data/mosquitto.db
 postgres/
+
+.embuild
+Cargo.lock
