@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from stolonet.domain.enums import MetricType
-from stolonet.domain.models import TelemetryEnvelope, TimestampedReading
+from stolonet.domain.models import TelemetryEnvelope, TimestampedReading, MetricAverage
 
 
 class ReadingRepository(Protocol):
@@ -14,3 +14,10 @@ class ReadingRepository(Protocol):
         hours: int = 24,
         limit: int = 100,
     ) -> list[TimestampedReading]: ...
+
+    async def calculate_telemetry_average_by_metric_type(
+        self,
+        node_id: str,
+        metric_type: MetricType,
+        hours: int = 24,
+    ) -> MetricAverage | None: ...
