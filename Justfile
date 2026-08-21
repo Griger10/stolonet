@@ -2,7 +2,6 @@
 @backend_format:
     cd backend && VIRTUAL_ENV= uv run ruff format
     cd backend && VIRTUAL_ENV= uv run ruff check --fix
-    cd backend && VIRTUAL_ENV= uv run isort .
     cd backend && VIRTUAL_ENV= uv run mypy --no-incremental
 
 [group("test")]

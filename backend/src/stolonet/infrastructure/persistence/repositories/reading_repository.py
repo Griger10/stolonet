@@ -29,11 +29,20 @@ class ReadingRepositoryImpl:
         await self._session.flush()
 
     async def get_telemetry_data_by_hours_window(
-        self, node_id: str, hours: int = 24
+        self,
+        node_id: str,
+        metric_type: MetricType,
+        hours: int = 24,
+        limit: int = 100,
     ) -> list[TimestampedReading]:
-        stmt = select(self.model).where(
-            self.model.node_id == node_id,
-            self.model.time >= datetime.now(UTC) - timedelta(hours=hours),
+        stmt = (
+            select(self.model)
+            .where(
+                self.model.node_id == node_id,
+                self.model.metric == metric_type,
+                self.model.time >= datetime.now(UTC) - timedelta(hours=hours),
+            )
+            .limit(limit)
         )
 
         result = await self._session.execute(stmt)

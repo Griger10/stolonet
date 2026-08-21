@@ -6,6 +6,7 @@ from fastapi import APIRouter
 from fastapi.params import Query
 
 from stolonet.api.dto.telemetry import TimestampedReadingResponse
+from stolonet.domain.enums import MetricType
 from stolonet.domain.interfaces.usecases import ReadTelemetryData
 
 telemetry_router = APIRouter(route_class=DishkaRoute, prefix="/telemetry", tags=["telemetry"])
@@ -13,9 +14,15 @@ telemetry_router = APIRouter(route_class=DishkaRoute, prefix="/telemetry", tags=
 
 @telemetry_router.get("/{node_id}")
 async def read_telemetry_endpoint(
-    node_id: str, usecase: FromDishka[ReadTelemetryData], hours: Annotated[int, Query(gt=0)] = 24
+    node_id: str,
+    usecase: FromDishka[ReadTelemetryData],
+    metric_type: Annotated[MetricType, Query()],
+    hours: Annotated[int, Query(gt=0)] = 24,
+    limit: Annotated[int, Query(gt=0)] = 100,
 ) -> list[TimestampedReadingResponse]:
-    domain_objects = await usecase(node_id, hours)
+    domain_objects = await usecase(
+        node_id=node_id, hours=hours, metric_type=metric_type, limit=limit
+    )
     return [
         TimestampedReadingResponse(
             node_id=domain_object.node_id,
