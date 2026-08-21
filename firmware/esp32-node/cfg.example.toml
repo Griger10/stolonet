@@ -1,0 +1,3 @@
+[esp32-node]
+wifi_ssid = "SSID"
+wifi_password = "password"

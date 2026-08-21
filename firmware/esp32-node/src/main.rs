@@ -1,4 +1,5 @@
 use bme280::i2c::BME280;
+use esp_idf_svc::eventloop::EspSystemEventLoop;
 use esp_idf_svc::hal::adc::oneshot::config;
 use esp_idf_svc::hal::adc::{
     oneshot::{AdcChannelDriver, AdcDriver},
@@ -10,6 +11,16 @@ use esp_idf_svc::hal::{
     peripherals::Peripherals,
     units::FromValueType,
 };
+use esp_idf_svc::nvs::EspDefaultNvsPartition;
+use esp_idf_svc::wifi::{AuthMethod, BlockingWifi, ClientConfiguration, Configuration, EspWifi};
+
+#[toml_cfg::toml_config]
+pub struct Config {
+    #[default("")]
+    wifi_ssid: &'static str,
+    #[default("")]
+    wifi_password: &'static str,
+}
 
 fn main() {
     esp_idf_svc::sys::link_patches();
@@ -32,6 +43,32 @@ fn main() {
         &config::AdcChannelConfig::default(),
     )
     .unwrap();
+
+    let sys_loop = EspSystemEventLoop::take().unwrap();
+    let nvs = EspDefaultNvsPartition::take().unwrap();
+
+    let mut wifi = BlockingWifi::wrap(
+        EspWifi::new(peripherals.modem, sys_loop.clone(), Some(nvs)).unwrap(),
+        sys_loop,
+    )
+    .unwrap();
+
+    wifi.set_configuration(&Configuration::Client(ClientConfiguration {
+        ssid: CONFIG.wifi_ssid.try_into().unwrap(),
+        password: CONFIG.wifi_password.try_into().unwrap(),
+        auth_method: AuthMethod::WPA2Personal,
+        ..Default::default()
+    }))
+    .unwrap();
+
+    wifi.start().unwrap();
+    wifi.connect().unwrap();
+    wifi.wait_netif_up().unwrap();
+
+    log::info!(
+        "WiFi connected, IP: {:?}",
+        wifi.wifi().sta_netif().get_ip_info().unwrap()
+    );
 
     loop {
         let measurements = bme280.measure(&mut delay).unwrap();
