@@ -28,6 +28,7 @@ esp-idf-svc = { version = "0.52.1", features = ["critical-section", "embassy-tim
 embassy-time = { version = "0.5", features = ["generic-queue-8"] }
 bme280 = "0.5.1"
 toml-cfg = "0.2.0"
+chrono = "0.4.45"
 
 [build-dependencies]
 embuild = "0.33"
