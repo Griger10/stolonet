@@ -1,5 +1,3 @@
-from typing import cast
-
 from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import select, func
@@ -65,7 +63,7 @@ class ReadingRepositoryImpl:
         node_id: str,
         metric_type: MetricType,
         hours: int = 24,
-    ) -> MetricAverage | None:
+    ) -> MetricAverage:
         stmt = select(func.avg(self.model.value)).where(
             self.model.node_id == node_id,
             self.model.metric == metric_type,
@@ -75,14 +73,10 @@ class ReadingRepositoryImpl:
         result = await self._session.execute(stmt)
         value = result.scalar_one_or_none()
 
-        if value is None:
-            return None
-
-        value = cast(float, value)
         return MetricAverage(
             node_id=node_id,
             average_value=value,
             metric_type=metric_type,
             unit=unit_for(metric_type),
-            period_hours=hours,
+            hours=hours,
         )

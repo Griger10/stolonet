@@ -9,7 +9,7 @@ class CalculateAverageMetricValueImpl:
 
     async def __call__(
         self, node_id: str, metric_type: MetricType, hours: int = 24
-    ) -> MetricAverage | None:
+    ) -> MetricAverage:
         return await self._reading_repo.calculate_telemetry_average_by_metric_type(
             node_id=node_id,
             metric_type=metric_type,

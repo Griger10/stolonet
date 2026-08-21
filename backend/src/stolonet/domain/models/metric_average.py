@@ -7,6 +7,6 @@ from stolonet.domain.enums import MetricType
 class MetricAverage:
     node_id: str
     metric_type: MetricType
-    average_value: float
+    average_value: float | None
     unit: str
-    period_hours: int
+    hours: int

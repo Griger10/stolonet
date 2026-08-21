@@ -11,3 +11,11 @@ class TimestampedReadingResponse(BaseModel):
     value: float
     unit: str
     timestamp: datetime
+
+
+class MetricAverageResponse(BaseModel):
+    node_id: str
+    metric: MetricType
+    average_value: float | None
+    unit: str
+    hours: int
