@@ -886,8 +886,8 @@ requires-dist = [
     { name = "pydantic", specifier = "==2.13.4" },
     { name = "pydantic-settings", specifier = "==2.15.0" },
     { name = "sqlalchemy", specifier = "==2.0.52" },
-    { name = "uvicorn", specifier = "==0.52.2" },
-    { name = "zmqtt", specifier = "==0.1.0" },
+    { name = "uvicorn", specifier = "==0.52.4" },
+    { name = "zmqtt", specifier = "==0.1.1" },
 ]
 
 [package.metadata.requires-dev]
@@ -934,15 +934,15 @@ wheels = [
 
 [[package]]
 name = "uvicorn"
-version = "0.52.2"
+version = "0.52.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "h11" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c3/53/be79eff13cc289570b4c6875fa4641a91a1dc51ece7f6213f364b0a58c4c/uvicorn-0.52.2.tar.gz", hash = "sha256:4294500b9c8f7a3ef3e975d9e4be08c3eb76441af449a9e6e10146c6a182ffec", size = 100685, upload-time = "2026-08-13T07:03:57.377Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f2/0f/3f86e61397dd33bf2ccf28188c40db6a740658aeebbbf6e7dbc101a1f487/uvicorn-0.52.4.tar.gz", hash = "sha256:73acfee47a0b133c5de13d219492d62d8a31e935f4fe6e41a232451a15379f86", size = 100627, upload-time = "2026-08-19T06:27:41.821Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c1/08/0d834cf3e61e476c9f422e856a9e37d12d708d7ada942a2774b1f42aee6c/uvicorn-0.52.2-py3-none-any.whl", hash = "sha256:0b916d247cf5500b320638ea11abf0fed7f348e8e1c7fde53a0e6b6319803512", size = 79912, upload-time = "2026-08-13T07:03:55.658Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/79/4a20b54ab0491485ccd8c077db2d39187c7f12b3e15485d38a7be37c81b4/uvicorn-0.52.4-py3-none-any.whl", hash = "sha256:f86e41a149d7d05a9969337e3946a9c171c06a5d42680896daaba624aeac8da1", size = 79871, upload-time = "2026-08-19T06:27:40.36Z" },
 ]
 
 [[package]]
@@ -962,9 +962,9 @@ wheels = [
 
 [[package]]
 name = "zmqtt"
-version = "0.1.0"
+version = "0.1.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/36/b3/1e399acf9e939e663a8c6149a7d4eb875e376d63c2ac8c3cd361f197d3af/zmqtt-0.1.0.tar.gz", hash = "sha256:2f8aa02f10ecf17e6447a5c93ae9f91a36cf2a0d436cf8dd9adb6f478e590d89", size = 35124, upload-time = "2026-08-07T12:53:14.792Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b4/8f/87efb99d768ccbf4728b3e80d86c0a89fefbfc698fc0e7348133fc7272c3/zmqtt-0.1.1.tar.gz", hash = "sha256:aeb8bda249b2104b90dcf3baa274e8e8357077e2a94f67fe0a58e973d1cc614b", size = 38378, upload-time = "2026-08-16T12:42:44.799Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b8/fb/a574b2aedf21d4bebc688554c9f93bd66aca01933c4117f9e533cae99f1c/zmqtt-0.1.0-py3-none-any.whl", hash = "sha256:2cc6d3e081284836371acda86ff2d8413d0230317a28f665a0f08ff8544f3d1d", size = 46079, upload-time = "2026-08-07T12:53:13.508Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/7c/6c046cf69bbc265f2b622c3a55bfac6abe2f142a858c0c086a1c53414192/zmqtt-0.1.1-py3-none-any.whl", hash = "sha256:935799127bee384a05c77f9fe83e43e8c291c8ceea02eac9a5413756d84ef0c1", size = 49583, upload-time = "2026-08-16T12:42:43.605Z" },
 ]
