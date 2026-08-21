@@ -10,7 +10,7 @@ type Props = {
   label: string;
   value: number;
   unit: string;
-  icon: never;
+  icon: React.ReactNode;
   accentClass: string;
   sensorKey: MetricType;
 }
