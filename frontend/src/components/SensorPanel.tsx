@@ -30,7 +30,7 @@ export const SensorPanel: React.FC<Props> = ({label, unit, icon, accentClass, se
         ) : isAverageError || averageData?.average_value == null ? (
           <span className="text-gray-400">—</span>
         ) : (
-          averageData.average_value
+          averageData.average_value.toFixed(2)
         )}
         <span className="text-lg text-gray-400 ml-1 font-normal">{unit}</span>
       </div>

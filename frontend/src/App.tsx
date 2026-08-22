@@ -7,7 +7,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="max-w-300 mx-auto px-8 py-10">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
+      <h1 className="text-2xl font-semibold mb-6 text-gray-900">
         Показания датчиков
       </h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
