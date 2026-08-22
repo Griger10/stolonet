@@ -64,3 +64,12 @@ services:
     volumes:
       - "./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf"
       - "./mosquitto/data:/mosquitto/data"
+  nginx:
+    container_name: nginx
+    build: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+      - frontend
