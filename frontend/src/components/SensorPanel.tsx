@@ -1,23 +1,23 @@
 import * as React from "react";
 import {Loader2, RefreshCw} from "lucide-react";
-import type {Telemetry} from "../interfaces/telemetry.ts";
+import type {MetricAverage, Telemetry} from "../interfaces/telemetry.ts";
 import {useMeasurements} from "../hooks/useMeasurements.ts";
 import {NODE_ID} from "../config.ts";
 import type {MetricType} from "../enums/metric_type.ts";
+import {useAverage} from "../hooks/useAverage.ts";
 
 
 type Props = {
   label: string;
-  value: number;
   unit: string;
   icon: React.ReactNode;
   accentClass: string;
   sensorKey: MetricType;
 }
 
-export const SensorPanel: React.FC<Props> = ({label, value, unit, icon, accentClass, sensorKey}) => {
+export const SensorPanel: React.FC<Props> = ({label, unit, icon, accentClass, sensorKey}) => {
   const {data: history = [], isLoading, isError, error, refetch} = useMeasurements<Telemetry[]>(NODE_ID, sensorKey)
-
+  const {data: averageData, isLoading: isAverageLoading, isError: isAverageError} = useAverage<MetricAverage>(NODE_ID, sensorKey)
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 w-full">
       <div className="flex items-center gap-2 mb-1 text-gray-500 dark:text-gray-400">
@@ -25,7 +25,13 @@ export const SensorPanel: React.FC<Props> = ({label, value, unit, icon, accentCl
         <span className="text-sm">{label}</span>
       </div>
       <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-        {value}
+        {isAverageLoading ? (
+          <Loader2 className="animate-spin inline" size={24}/>
+        ) : isAverageError || averageData?.average_value == null ? (
+          <span className="text-gray-400">—</span>
+        ) : (
+          averageData.average_value
+        )}
         <span className="text-lg text-gray-400 ml-1 font-normal">{unit}</span>
       </div>
       <div className="text-xs text-gray-400 mt-1 mb-4">Последние 100 замеров</div>
