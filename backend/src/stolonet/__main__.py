@@ -22,6 +22,7 @@ def create_app(config: Config, container: AsyncContainer, mqtt_router: MQTTRoute
         description="Stolonet backend",
         docs_url="/api/docs" if config.api_config.debug else None,
         redoc_url="/api/redoc" if config.api_config.debug else None,
+        openapi_url="/api/openapi.json" if config.api_config.debug else None,
     )
 
     app.add_middleware(
