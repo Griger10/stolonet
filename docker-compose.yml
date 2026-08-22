@@ -15,6 +15,19 @@ services:
         condition: service_started
       postgres:
         condition: service_healthy
+  frontend:
+    container_name: frontend
+    build:
+      dockerfile: frontend/Dockerfile
+      context: .
+    command: serve -s dist -l 8080
+    restart: unless-stopped
+    env_file:
+      - frontend/.env
+    depends_on:
+      - backend
+    ports:
+      - "8080:8080"
   simulator:
     container_name: simulator
     command: python -m simulator
