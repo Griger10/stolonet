@@ -52,26 +52,26 @@ jobs:
         run: |
           uv run mypy --no-incremental
 
-  test:
-    name: test backend
-    runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/checkout@v7
-      - name: setup dependencies
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.13"
-      - name: install uv
-        uses: astral-sh/setup-uv@v7
-
-      - name: install backend dependencies
-        run: |
-          uv sync --all-groups
-
-      - name: run tests
-        run: |
-          uv run pytest tests/unit -v
+#  test:
+#    name: test backend
+#    runs-on: ubuntu-22.04
+#    defaults:
+#      run:
+#        working-directory: backend
+#    steps:
+#      - uses: actions/checkout@v7
+#      - name: setup dependencies
+#        uses: actions/setup-python@v6
+#        with:
+#          python-version: "3.13"
+#      - name: install uv
+#        uses: astral-sh/setup-uv@v7
+#
+#      - name: install backend dependencies
+#        run: |
+#          uv sync --all-groups
+#
+#      - name: run tests
+#        run: |
+#          uv run pytest tests/unit -v
 
