@@ -6,7 +6,7 @@
 
 [group("test")]
 @backend_test:
-    cd backend && VIRTUAL_ENV= uv run pytest tests/unit -v
+    cd backend && VIRTUAL_ENV= uv run pytest tests -v
 
 [group("migrations")]
 @backend_migrate:
