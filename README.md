@@ -21,7 +21,7 @@ the API and displays live and historical readings.
 - Tailwind CSS 4 for styling
 - TanStack Query for data fetching/caching, Axios for HTTP
 
-**Firmware** — `firmware/esp32-node/`
+**Firmware** — [Firmware project](https://github.com/Griger10/stolonet-node)
 - Rust, targeting a real ESP32 device via `esp-idf-svc` + `embassy`
 - Reads a BME280 sensor (temperature) and an ADC soil-moisture probe, publishes over MQTT
 

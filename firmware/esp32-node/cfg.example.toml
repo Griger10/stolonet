@@ -1,4 +1,0 @@
-[esp32-node]
-wifi_ssid = "SSID"
-wifi_password = "password"
-mqtt_broker_url = "mqtt://172.16.0.1:1883"
