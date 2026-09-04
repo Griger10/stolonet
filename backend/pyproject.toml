@@ -3,12 +3,12 @@ name = "stolonet"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-    "alembic==1.19.1",
+    "alembic==1.19.2",
     "dishka==1.10.1",
     "dishka-faststream==0.7.0",
     "fastapi==0.141.1",
     "faststream==0.7.5",
-    "psycopg[binary]==3.3.4",
+    "psycopg[binary]==3.3.5",
     "pydantic==2.13.5",
     "pydantic-settings==2.15.0",
     "sqlalchemy==2.0.52",
