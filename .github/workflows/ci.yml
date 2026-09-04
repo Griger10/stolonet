@@ -73,5 +73,5 @@ jobs:
 
       - name: run tests
         run: |
-          uv run pytest tests/unit -v
+          uv run pytest tests -v
 
