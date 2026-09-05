@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent.parent
@@ -59,9 +59,9 @@ class Config(BaseSettings):
         env_file=ENV_FILES,
         extra="ignore",
     )
-    mqtt_config: MQTTConfig = MQTTConfig()
-    database_config: DatabaseConfig = DatabaseConfig()
-    api_config: APIConfig = APIConfig()
+    mqtt_config: MQTTConfig = Field(default_factory=MQTTConfig)
+    database_config: DatabaseConfig = Field(default_factory=DatabaseConfig)
+    api_config: APIConfig = Field(default_factory=APIConfig)
 
 
 def load_config() -> Config:
