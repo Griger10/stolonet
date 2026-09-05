@@ -91,6 +91,8 @@ async def request_container(container):
 def config(mocker):
     config = mocker.Mock()
     config.api_config.debug = False
+    config.api_config.host = "0.0.0.0"
+    config.api_config.port = 8000
     return config
 
 
