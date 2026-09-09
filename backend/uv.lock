@@ -925,7 +925,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = "==2.15.0" },
     { name = "sqlalchemy", specifier = "==2.0.52" },
     { name = "uvicorn", specifier = "==0.52.4" },
-    { name = "zmqtt", specifier = "==0.2.1" },
+    { name = "zmqtt", specifier = "==0.2.2" },
 ]
 
 [package.metadata.requires-dev]
@@ -1000,9 +1000,9 @@ wheels = [
 
 [[package]]
 name = "zmqtt"
-version = "0.2.1"
+version = "0.2.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ac/e6/23be7be9c899681c742bbbd861069f59e9cc669de929962951f23f869c6d/zmqtt-0.2.1.tar.gz", hash = "sha256:2b1ed7af2fb0e0eb0ee7d7a0477812e434d78e9626ebc0ef233690fc508118d8", size = 42724, upload-time = "2026-08-30T21:13:11.518Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/bc/5e/48979a39b03f82dbb9c35f17fba2f685d9f0078ebcb0f12a4abd907fc24c/zmqtt-0.2.2.tar.gz", hash = "sha256:58bd4b93d581de640504f41f881f68fa0b20192a28561fe14f2dc0024eb989d9", size = 44086, upload-time = "2026-09-08T13:32:34.198Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/83/38/5e1a552960bfe5beabeb5fa32b78b71105a6289a11769c6772810f4eb181/zmqtt-0.2.1-py3-none-any.whl", hash = "sha256:af8e71066c55cc4802fd8352cb230133c7026314536fd92b62c3112848ecd8af", size = 54597, upload-time = "2026-08-30T21:13:10.202Z" },
+    { url = "https://files.pythonhosted.org/packages/0a/d6/7bf9fa71c1a6d4ec56b2037e6026989d9b6aac8d15257a83afde81f4eb0d/zmqtt-0.2.2-py3-none-any.whl", hash = "sha256:44b0f03dc6bf8dcc3a0092ff036b6179dc247c9959c920dc9faf0379a35e8458", size = 55935, upload-time = "2026-09-08T13:32:32.905Z" },
 ]

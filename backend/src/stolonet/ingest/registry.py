@@ -6,6 +6,7 @@ from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING, Any
 
 from dishka_faststream import inject
+from zmqtt import QoS
 
 if TYPE_CHECKING:
     from faststream.mqtt.fastapi import MQTTRouter
@@ -25,7 +26,7 @@ def register_subscriber(topic: str) -> Callable[[Handler], Handler]:
 
 def register_all(broker: MQTTRouter) -> None:
     for topic, func in SUBSCRIBERS_REGISTRY.items():
-        broker.subscriber(topic=topic)(inject(func))
+        broker.subscriber(topic=topic, qos=QoS.AT_LEAST_ONCE)(inject(func))
 
 
 def load_ingest_handlers() -> None:
