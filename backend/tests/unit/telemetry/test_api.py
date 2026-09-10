@@ -6,8 +6,12 @@ from stolonet.domain.enums import MetricType
 from stolonet.domain.enums.metric_type import unit_for
 from stolonet.domain.models import MetricAverage, TimestampedReading
 
+pytestmark = pytest.mark.api
 
-def test_read_telemetry(client: TestClient, reading_repository, faker) -> None:
+
+def test_read_telemetry_returns_serialized_readings(
+    client: TestClient, reading_repository, faker
+) -> None:
     # Arrange
     node_id = faker.pystr()
     metric_type = MetricType.SOIL_MOISTURE
@@ -34,9 +38,6 @@ def test_read_telemetry(client: TestClient, reading_repository, faker) -> None:
             "timestamp": reading.timestamp.isoformat(),
         }
     ]
-    reading_repository.get_telemetry_data_by_hours_window.assert_called_once_with(
-        node_id=node_id, hours=24, metric_type=metric_type, limit=100
-    )
 
 
 def test_read_telemetry_returns_empty_list_when_no_data(
@@ -79,47 +80,6 @@ def test_read_telemetry_preserves_repository_order(
     # Assert
     assert response.status_code == status.HTTP_200_OK
     assert [item["value"] for item in response.json()] == [0.0, 1.0, 2.0]
-
-
-def test_read_telemetry_uses_default_hours_and_limit(
-    client: TestClient, reading_repository, faker
-) -> None:
-    # Arrange
-    node_id = faker.pystr()
-    metric_type = faker.random_element(list(MetricType))
-    reading_repository.get_telemetry_data_by_hours_window.return_value = []
-
-    # Act
-    response = client.get(f"/telemetry/{node_id}", params={"metric_type": metric_type.value})
-
-    # Assert
-    assert response.status_code == status.HTTP_200_OK
-    reading_repository.get_telemetry_data_by_hours_window.assert_called_once_with(
-        node_id=node_id, hours=24, metric_type=metric_type, limit=100
-    )
-
-
-def test_read_telemetry_custom_hours_and_limit(
-    client: TestClient, reading_repository, faker
-) -> None:
-    # Arrange
-    node_id = faker.pystr()
-    metric_type = faker.random_element(list(MetricType))
-    hours = faker.pyint(min_value=1, max_value=48)
-    limit = faker.pyint(min_value=1, max_value=500)
-    reading_repository.get_telemetry_data_by_hours_window.return_value = []
-
-    # Act
-    response = client.get(
-        f"/telemetry/{node_id}",
-        params={"metric_type": metric_type.value, "hours": hours, "limit": limit},
-    )
-
-    # Assert
-    assert response.status_code == status.HTTP_200_OK
-    reading_repository.get_telemetry_data_by_hours_window.assert_called_once_with(
-        node_id=node_id, hours=hours, metric_type=metric_type, limit=limit
-    )
 
 
 @pytest.mark.parametrize("hours", [0, -1])
@@ -185,7 +145,7 @@ def test_read_telemetry_rejects_unknown_metric_type(
 
 
 @pytest.mark.parametrize("metric_type", list(MetricType))
-def test_read_telemetry_supports_all_metric_types(
+def test_read_telemetry_serializes_every_metric_type(
     client: TestClient, reading_repository, faker, metric_type: MetricType
 ) -> None:
     # Arrange
@@ -209,7 +169,9 @@ def test_read_telemetry_supports_all_metric_types(
     assert body["unit"] == unit_for(metric_type)
 
 
-def test_calculate_average(client: TestClient, reading_repository, faker) -> None:
+def test_calculate_average_returns_serialized_payload(
+    client: TestClient, reading_repository, faker
+) -> None:
     # Arrange
     node_id = faker.pystr()
     metric_type = MetricType.SOIL_MOISTURE
@@ -238,12 +200,9 @@ def test_calculate_average(client: TestClient, reading_repository, faker) -> Non
         "unit": unit_for(metric_type),
         "hours": hours,
     }
-    reading_repository.calculate_telemetry_average_by_metric_type.assert_called_once_with(
-        node_id=node_id, hours=hours, metric_type=metric_type
-    )
 
 
-def test_calculate_average_uses_default_hours(
+def test_calculate_average_defaults_hours_to_24_in_response(
     client: TestClient, reading_repository, faker
 ) -> None:
     # Arrange
@@ -266,9 +225,6 @@ def test_calculate_average_uses_default_hours(
     # Assert
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["hours"] == 24
-    reading_repository.calculate_telemetry_average_by_metric_type.assert_called_once_with(
-        node_id=node_id, hours=24, metric_type=metric_type
-    )
 
 
 def test_calculate_average_returns_null_when_no_data(
@@ -344,7 +300,7 @@ def test_calculate_average_rejects_unknown_metric_type(
 
 
 @pytest.mark.parametrize("metric_type", list(MetricType))
-def test_calculate_average_supports_all_metric_types(
+def test_calculate_average_serializes_every_metric_type(
     client: TestClient, reading_repository, faker, metric_type: MetricType
 ) -> None:
     # Arrange

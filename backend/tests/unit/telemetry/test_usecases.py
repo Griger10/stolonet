@@ -5,7 +5,6 @@ from stolonet.domain.enums.metric_type import unit_for
 from stolonet.domain.models import MetricAverage, Reading, TelemetryEnvelope, TimestampedReading
 
 
-@pytest.mark.asyncio
 async def test_read_telemetry_data(reading_repository, read_telemetry_data, faker):
     # Arrange
     node_id = faker.pystr()
@@ -42,7 +41,6 @@ async def test_read_telemetry_data(reading_repository, read_telemetry_data, fake
     )
 
 
-@pytest.mark.asyncio
 async def test_save_telemetry_data(reading_repository, save_telemetry_data, faker):
     # Arrange
     node_id = faker.pystr()
@@ -71,7 +69,6 @@ async def test_save_telemetry_data(reading_repository, save_telemetry_data, fake
     reading_repository.save_telemetry_data.assert_called_once_with(data)
 
 
-@pytest.mark.asyncio
 async def test_read_telemetry_data_returns_empty_list(
     reading_repository, read_telemetry_data, faker
 ):
@@ -91,7 +88,6 @@ async def test_read_telemetry_data_returns_empty_list(
     )
 
 
-@pytest.mark.asyncio
 async def test_read_telemetry_data_uses_default_hours(
     reading_repository, read_telemetry_data, faker
 ):
@@ -110,7 +106,6 @@ async def test_read_telemetry_data_uses_default_hours(
     )
 
 
-@pytest.mark.asyncio
 async def test_read_telemetry_data_hours_zero_boundary(
     reading_repository, read_telemetry_data, faker
 ):
@@ -129,7 +124,6 @@ async def test_read_telemetry_data_hours_zero_boundary(
     )
 
 
-@pytest.mark.asyncio
 async def test_read_telemetry_data_custom_limit(reading_repository, read_telemetry_data, faker):
     # Arrange
     node_id = faker.pystr()
@@ -147,7 +141,6 @@ async def test_read_telemetry_data_custom_limit(reading_repository, read_telemet
     )
 
 
-@pytest.mark.asyncio
 async def test_read_telemetry_data_propagates_repository_exception(
     reading_repository, read_telemetry_data, faker
 ):
@@ -167,7 +160,6 @@ async def test_read_telemetry_data_propagates_repository_exception(
     )
 
 
-@pytest.mark.asyncio
 async def test_save_telemetry_data_with_empty_readings(
     reading_repository, save_telemetry_data, faker
 ):
@@ -183,7 +175,6 @@ async def test_save_telemetry_data_with_empty_readings(
     reading_repository.save_telemetry_data.assert_called_once_with(data)
 
 
-@pytest.mark.asyncio
 async def test_save_telemetry_data_propagates_repository_exception(
     reading_repository, save_telemetry_data, faker
 ):
@@ -208,7 +199,6 @@ async def test_save_telemetry_data_propagates_repository_exception(
     reading_repository.save_telemetry_data.assert_called_once_with(data)
 
 
-@pytest.mark.asyncio
 async def test_calculate_average_metric_value(
     reading_repository, calculate_average_metric_value, faker
 ):
@@ -237,7 +227,6 @@ async def test_calculate_average_metric_value(
     )
 
 
-@pytest.mark.asyncio
 async def test_calculate_average_metric_value_uses_default_hours(
     reading_repository, calculate_average_metric_value, faker
 ):
@@ -263,7 +252,6 @@ async def test_calculate_average_metric_value_uses_default_hours(
     )
 
 
-@pytest.mark.asyncio
 async def test_calculate_average_metric_value_no_data(
     reading_repository, calculate_average_metric_value, faker
 ):
@@ -292,7 +280,6 @@ async def test_calculate_average_metric_value_no_data(
     )
 
 
-@pytest.mark.asyncio
 async def test_calculate_average_metric_value_propagates_repository_exception(
     reading_repository, calculate_average_metric_value, faker
 ):
