@@ -5,6 +5,7 @@ from stolonet.application.transaction_manager import TransactionManager
 from stolonet.application.usecases import (
     SaveTelemetryDataImpl,
     CalculateAverageMetricValueImpl,
+    MoveOldDataToArchiveUsecaseImpl,
     ReadTelemetryDataImpl,
 )
 from stolonet.domain.interfaces.repositories import ReadingRepository
@@ -12,6 +13,7 @@ from stolonet.domain.interfaces.usecases import (
     ReadTelemetryData,
     SaveTelemetryData,
     CalculateAverageMetricValue,
+    MoveOldDataToArchiveUsecase,
 )
 from stolonet.infrastructure.persistence.repositories.reading_repository import (
     ReadingRepositoryImpl,
@@ -40,3 +42,9 @@ class TelemetryProvider(Provider):
         self, repo: ReadingRepository
     ) -> CalculateAverageMetricValue:
         return CalculateAverageMetricValueImpl(repo)
+
+    @provide
+    async def get_move_old_data_to_archive_use_case(
+        self, repo: ReadingRepository, tx_manager: TransactionManager
+    ) -> MoveOldDataToArchiveUsecase:
+        return MoveOldDataToArchiveUsecaseImpl(repo, tx_manager)

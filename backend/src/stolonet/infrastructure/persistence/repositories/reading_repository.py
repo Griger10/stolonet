@@ -1,16 +1,21 @@
 from datetime import UTC, datetime, timedelta
+from typing import Any, cast
 
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
+from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.engine import CursorResult
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from stolonet.domain.enums import MetricType
 from stolonet.domain.enums.metric_type import unit_for
 from stolonet.domain.models import TelemetryEnvelope, TimestampedReading, MetricAverage
 from stolonet.infrastructure.persistence import ReadingORM
+from stolonet.infrastructure.persistence.models.reading_archive import ReadingArchiveORM
 
 
 class ReadingRepositoryImpl:
     model: type[ReadingORM] = ReadingORM
+    archive_model: type[ReadingArchiveORM] = ReadingArchiveORM
 
     def __init__(self, session: AsyncSession):
         self._session = session
@@ -80,3 +85,26 @@ class ReadingRepositoryImpl:
             unit=unit_for(metric_type),
             hours=hours,
         )
+
+    async def move_batch_old_telemetry_data(self, days: int, batch_size: int) -> int:
+        ids_subquery = (
+            select(self.model.reading_id)
+            .where(self.model.created_at <= datetime.now(UTC) - timedelta(days=days))
+            .order_by(self.model.created_at)
+            .limit(batch_size)
+        )
+
+        moved_cte = (
+            delete(self.model)
+            .where(self.model.reading_id.in_(ids_subquery))
+            .returning(*self.model.__table__.columns)
+            .cte("moved")
+        )
+
+        columns = [c.name for c in self.model.__table__.columns]
+
+        stmt = insert(self.archive_model).from_select(columns, select(moved_cte))
+
+        result = await self._session.execute(stmt)
+
+        return cast(CursorResult[Any], result).rowcount
