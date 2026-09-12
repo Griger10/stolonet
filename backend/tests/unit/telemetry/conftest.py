@@ -1,3 +1,6 @@
+from typing import Any
+
+
 from collections.abc import Iterable
 
 import pytest
@@ -6,10 +9,14 @@ from dishka.integrations.fastapi import FastapiProvider
 from fastapi.testclient import TestClient
 from faststream.mqtt.fastapi import MQTTRouter
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from taskiq_faststream import BrokerWrapper
+
 from stolonet.__main__ import create_app
 from stolonet.application.transaction_manager import TransactionManager
 from stolonet.application.usecases import (
     CalculateAverageMetricValueImpl,
+    MoveOldDataToArchiveUsecaseImpl,
     ReadTelemetryDataImpl,
     SaveTelemetryDataImpl,
 )
@@ -19,8 +26,12 @@ from stolonet.bootstrap.di.providers.telemetry_provider import TelemetryProvider
 from stolonet.domain.interfaces.repositories import ReadingRepository
 from stolonet.domain.interfaces.usecases import (
     CalculateAverageMetricValue,
+    MoveOldDataToArchiveUsecase,
     ReadTelemetryData,
     SaveTelemetryData,
+)
+from stolonet.infrastructure.persistence.repositories.reading_repository import (
+    ReadingRepositoryImpl,
 )
 
 
@@ -37,6 +48,21 @@ def save_telemetry_data(reading_repository, tx_manager) -> SaveTelemetryData:
 @pytest.fixture
 def calculate_average_metric_value(reading_repository) -> CalculateAverageMetricValue:
     return CalculateAverageMetricValueImpl(reading_repository)
+
+
+@pytest.fixture
+def move_old_data_to_archive(reading_repository, tx_manager) -> MoveOldDataToArchiveUsecase:
+    return MoveOldDataToArchiveUsecaseImpl(reading_repository, tx_manager)
+
+
+@pytest.fixture
+def db_session(mocker) -> Any:
+    return mocker.AsyncMock(spec=AsyncSession)
+
+
+@pytest.fixture
+def reading_repository_impl(db_session) -> ReadingRepositoryImpl:
+    return ReadingRepositoryImpl(db_session)
 
 
 class MockInfraProvider(Provider):
@@ -93,7 +119,17 @@ def mqtt_router(mocker) -> MQTTRouter:
 
 
 @pytest.fixture
-def client(container, test_config, mqtt_router) -> Iterable[TestClient]:
-    app = create_app(config=test_config, container=container, mqtt_router=mqtt_router)
+def taskiq_broker(mqtt_router) -> BrokerWrapper:
+    return BrokerWrapper(mqtt_router.broker)
+
+
+@pytest.fixture
+def client(container, test_config, mqtt_router, taskiq_broker) -> Iterable[TestClient]:
+    app = create_app(
+        config=test_config,
+        container=container,
+        mqtt_router=mqtt_router,
+        taskiq_broker=taskiq_broker,
+    )
     with TestClient(app) as client:
         yield client

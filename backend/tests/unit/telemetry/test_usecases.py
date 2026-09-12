@@ -1,5 +1,6 @@
 import pytest
 
+from stolonet.application.usecases.move_old_data_to_archive import BATCH_SIZE, OLD_DATA_DAYS
 from stolonet.domain.enums import MetricType
 from stolonet.domain.enums.metric_type import unit_for
 from stolonet.domain.models import MetricAverage, Reading, TelemetryEnvelope, TimestampedReading
@@ -297,3 +298,98 @@ async def test_calculate_average_metric_value_propagates_repository_exception(
     reading_repository.calculate_telemetry_average_by_metric_type.assert_called_once_with(
         node_id=node_id, metric_type=metric_type, hours=hours
     )
+
+
+async def test_move_old_data_to_archive_stops_after_a_single_partial_batch(
+    reading_repository, tx_manager, move_old_data_to_archive, faker
+):
+    # Arrange
+    moved = faker.pyint(min_value=0, max_value=BATCH_SIZE - 1)
+    reading_repository.move_batch_old_telemetry_data.return_value = moved
+
+    # Act
+    result = await move_old_data_to_archive()
+
+    # Assert
+    assert result is None
+    reading_repository.move_batch_old_telemetry_data.assert_called_once_with(
+        OLD_DATA_DAYS, BATCH_SIZE
+    )
+    tx_manager.commit.assert_awaited_once()
+
+
+async def test_move_old_data_to_archive_loops_while_batches_are_full(
+    reading_repository, tx_manager, move_old_data_to_archive
+):
+    # Arrange
+    reading_repository.move_batch_old_telemetry_data.side_effect = [
+        BATCH_SIZE,
+        BATCH_SIZE,
+        BATCH_SIZE // 2,
+    ]
+
+    # Act
+    await move_old_data_to_archive()
+
+    # Assert
+    assert reading_repository.move_batch_old_telemetry_data.call_count == 3
+    reading_repository.move_batch_old_telemetry_data.assert_called_with(OLD_DATA_DAYS, BATCH_SIZE)
+    assert tx_manager.commit.await_count == 3
+
+
+async def test_move_old_data_to_archive_commits_after_every_batch(
+    reading_repository, tx_manager, move_old_data_to_archive
+):
+    # Arrange
+    reading_repository.move_batch_old_telemetry_data.side_effect = [BATCH_SIZE, 0]
+
+    # Act
+    await move_old_data_to_archive()
+
+    # Assert: each batch is committed on its own, so a crash between batches
+    # neither loses nor duplicates already-moved rows.
+    assert tx_manager.commit.await_count == 2
+
+
+async def test_move_old_data_to_archive_no_old_data(
+    reading_repository, tx_manager, move_old_data_to_archive
+):
+    # Arrange
+    reading_repository.move_batch_old_telemetry_data.return_value = 0
+
+    # Act
+    await move_old_data_to_archive()
+
+    # Assert
+    reading_repository.move_batch_old_telemetry_data.assert_called_once_with(
+        OLD_DATA_DAYS, BATCH_SIZE
+    )
+    tx_manager.commit.assert_awaited_once()
+
+
+async def test_move_old_data_to_archive_propagates_repository_exception(
+    reading_repository, tx_manager, move_old_data_to_archive
+):
+    # Arrange
+    reading_repository.move_batch_old_telemetry_data.side_effect = ConnectionError("db unavailable")
+
+    # Act & Assert
+    with pytest.raises(ConnectionError):
+        await move_old_data_to_archive()
+    tx_manager.commit.assert_not_awaited()
+
+
+async def test_move_old_data_to_archive_does_not_commit_batches_after_a_failing_one(
+    reading_repository, tx_manager, move_old_data_to_archive
+):
+    # Arrange
+    reading_repository.move_batch_old_telemetry_data.side_effect = [
+        BATCH_SIZE,
+        ConnectionError("db unavailable"),
+    ]
+
+    # Act & Assert
+    with pytest.raises(ConnectionError):
+        await move_old_data_to_archive()
+    assert reading_repository.move_batch_old_telemetry_data.call_count == 2
+    assert tx_manager.commit.await_count == 1
