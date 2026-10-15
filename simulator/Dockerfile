@@ -1,4 +1,4 @@
-FROM python:3.13-slim AS builder
+FROM python:3.14-slim AS builder
 COPY --from=ghcr.io/astral-sh/uv:0.11.33 /uv /uvx /bin/
 
 ENV UV_COMPILE_BYTECODE=1
@@ -10,7 +10,7 @@ COPY simulator/pyproject.toml .
 COPY simulator/uv.lock .
 RUN uv sync --frozen
 
-FROM python:3.13-slim
+FROM python:3.14-slim
 ENV PYTHONPATH="${PYTHONPATH}:/app/simulator/"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
