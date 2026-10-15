@@ -1,0 +1,34 @@
+name: Proposal
+description: Suggest a feature or improvement for Stolonet.
+title: "[Proposal]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem your proposal would solve. Please search existing issues before submitting.
+        For security vulnerabilities, follow [the security policy](https://github.com/Griger10/stolonet/blob/HEAD/.github/SECURITY.md) instead of posting details here.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: Who would benefit, and what is difficult or missing today?
+      placeholder: When I ..., I need ... because ...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the expected behavior and how it would help.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe other approaches or workarounds and their limitations.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add examples, mockups, or relevant links. Remove credentials and private data.

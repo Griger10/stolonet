@@ -1,0 +1,54 @@
+name: Bug report
+description: Report unexpected behavior in Stolonet.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues before submitting.
+        Report suspected security vulnerabilities privately using [the security policy](https://github.com/Griger10/stolonet/blob/HEAD/.github/SECURITY.md).
+        Remove passwords, tokens, connection strings, and private telemetry from all attachments.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug and its impact.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include the smallest example that reproduces the problem.
+      placeholder: |
+        1. Start the stack with ...
+        2. Open ... or publish ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include the commit or version, affected component, OS, and relevant runtime or browser versions.
+      placeholder: |
+        Commit or version:
+        Component: backend / frontend / simulator / deployment
+        OS:
+        Deployment: Docker Compose / local
+        Browser or runtime version:
+        Telemetry source: ESP32 / simulator / other / not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs and screenshots
+      description: Add relevant error messages, sanitized payloads, or screenshots. Use fenced code blocks for logs.
