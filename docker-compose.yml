@@ -42,7 +42,7 @@ services:
         condition: service_started
   postgres:
     container_name: postgres
-    image: postgres:18-alpine
+    image: postgres:19-alpine
     restart: unless-stopped
     env_file:
       - .env
